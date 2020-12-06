@@ -8,7 +8,8 @@ const Snowflake = () => {
     const addFlake = () => {
         const x = Math.ceil(Math.random() * width);
         const r = Math.ceil(Math.random() * 4);
-        flakes.push({ x, y: 0, r });
+        const opacity = Math.min(Math.random() + 0.1, 0.7);
+        flakes.push({ x, y: 0, r, opacity });
     };
 
     const fallFlake = () => {
@@ -34,7 +35,7 @@ const Snowflake = () => {
 
         flakes.forEach(flake => {
             ctx.beginPath();
-            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            ctx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
             ctx.arc(flake.x, flake.y, flake.r / 2, 0, 2 * Math.PI);
             ctx.fill();
         });
