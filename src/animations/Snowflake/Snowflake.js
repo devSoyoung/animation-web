@@ -3,11 +3,11 @@ import Canvas from '../../components/Canvas';
 
 const Snowflake = () => {
     let flakes = [];
-    const { clientWidth: width, clientHeight: height } = document.body;
+    let width, height;
 
     const addFlake = () => {
         const x = Math.ceil(Math.random() * width);
-        const r = Math.ceil(Math.random() * 4);
+        const r = Math.max(Math.ceil(Math.random() * 5), 2);
         const opacity = Math.min(Math.random() + 0.1, 0.7);
         flakes.push({ x, y: 0, r, opacity });
     };
@@ -23,9 +23,19 @@ const Snowflake = () => {
         addFlake();
     };
 
+    const setWidthHeight = () => {
+        width = document.body.clientWidth;
+        height = document.body.clientHeight;
+    };
+
     useEffect(() => {
+        setWidthHeight();
         const intervalId = setInterval(snow, 50);
-        return () => clearInterval(intervalId);
+        window.addEventListener('resize', setWidthHeight);
+        return () => {
+            clearInterval(intervalId);
+            window.removeEventListener('resize', setWidthHeight);
+        };
     });
 
 
