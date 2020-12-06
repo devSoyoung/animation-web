@@ -4,6 +4,8 @@ import Canvas from '../../components/Canvas';
 const Snowflake = () => {
     let flakes = [];
     let width, height;
+    let direction = -1;     // -1: left, +1: right
+    let prevPointer = 500;
 
     const addFlake = () => {
         const x = Math.ceil(Math.random() * width);
@@ -13,7 +15,11 @@ const Snowflake = () => {
     };
 
     const fallFlake = () => {
-        flakes.forEach(flake => { flake.y += flake.r / 2; });
+        flakes.forEach(flake => {
+            const gap = flake.r / 2;
+            flake.y += gap;
+            flake.x += gap * direction;
+        });
         // 화면 바깥으로 나간 flake 제거
         flakes = flakes.filter(flake => flake.y < height);
     };
@@ -28,13 +34,21 @@ const Snowflake = () => {
         height = document.body.clientHeight;
     };
 
+    const setDirectionFromCursorPosition = ({ x }) => {
+        if (prevPointer === x) return;
+        direction = x > prevPointer ? 1 : -1;
+        prevPointer = x;
+    };
+
     useEffect(() => {
         setWidthHeight();
         const intervalId = setInterval(snow, 50);
         window.addEventListener('resize', setWidthHeight);
+        window.addEventListener('mousemove', setDirectionFromCursorPosition);
         return () => {
             clearInterval(intervalId);
             window.removeEventListener('resize', setWidthHeight);
+            window.removeEventListener('mousemove', setDirectionFromCursorPosition);
         };
     });
 
