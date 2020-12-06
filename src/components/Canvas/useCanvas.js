@@ -3,7 +3,9 @@ import { useRef, useEffect } from 'react';
 const useCanvas = draw => {
     const canvasRef = useRef(null);
 
-    useEffect(() => {    
+    useEffect(() => {
+        if (typeof draw !== 'function') return;
+
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         let frameCount = 0;
