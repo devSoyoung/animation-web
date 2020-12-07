@@ -1,10 +1,10 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
-const useCanvas = (draw, dimension = '2d') => {
+const useCanvas = (draw, dimension = "2d") => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        if (typeof draw !== 'function') return;
+        if (typeof draw !== "function") return;
 
         const canvas = canvasRef.current;
         const context = canvas.getContext(dimension);
