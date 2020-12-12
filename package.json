@@ -17,8 +17,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "node_modules/.bin/eslint *.js src/**/*.js --fix",
-    "prt": "prettier --write \"*.{js,md}\" \"src/**/*.js\"",
+    "lint": "node_modules/.bin/eslint *.js src/**/*.{js,jsx} --fix",
+    "prt": "prettier --write \"*.{js,md}\" \"src/**/*.{js,jsx}\"",
     "format": "npm run prt && npm run lint"
   },
   "browserslist": {
