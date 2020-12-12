@@ -28,6 +28,10 @@ $card-horizontal-padding: 40px;
         }
     }
 
+    & + .card {
+        margin-left: 20px;
+    }
+
     .face {
         position: absolute;
         top: 0;
