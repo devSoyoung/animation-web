@@ -1,7 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
+import { ViewSizeContext } from "../../context";
 
 const useCanvas = (draw, dimension = "2d") => {
     const canvasRef = useRef(null);
+    const viewSize = useContext(ViewSizeContext);
 
     useEffect(() => {
         if (typeof draw !== "function") return;
@@ -24,23 +26,15 @@ const useCanvas = (draw, dimension = "2d") => {
     }, [draw, dimension]);
 
     useEffect(() => {
-        const resize = () => {
-            const { current: canvas } = canvasRef;
-            const context = canvas.getContext(dimension);
+        const { current: canvas } = canvasRef;
+        const context = canvas.getContext(dimension);
 
-            const { clientWidth: width, clientHeight: height } = document.body;
-            // 캔버스 더블 사이즈: 레티나 디스플레이 대응
-            canvas.width = width * 2;
-            canvas.height = height * 2;
-            context.scale(2, 2);
-        };
-        resize();
-
-        window.addEventListener("resize", resize);
-        return () => {
-            window.removeEventListener("resize", resize);
-        };
-    }, [dimension]);
+        const { width, height } = viewSize;
+        // 캔버스 더블 사이즈: 레티나 디스플레이 대응
+        canvas.width = width * 2;
+        canvas.height = height * 2;
+        context.scale(2, 2);
+    }, [viewSize, dimension]);
 
     return canvasRef;
 };
