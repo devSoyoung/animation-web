@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import Canvas from "../../components/Canvas";
 import { ViewSizeContext } from "../../context";
-const Snowflake = props => {
+const Snowflake = (props) => {
     const viewSize = useContext(ViewSizeContext);
 
     let flakes = [];

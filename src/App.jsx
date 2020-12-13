@@ -16,14 +16,14 @@ function App() {
         return () => {
             window.removeEventListener("resize", onResize);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <ViewSizeContext.Provider value={size}>
-        <div className="App">
-            <TransparentCard />
-        </div>
+            <div className="App">
+                <TransparentCard />
+            </div>
         </ViewSizeContext.Provider>
     );
 }
