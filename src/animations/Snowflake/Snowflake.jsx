@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Canvas from "../../components/Canvas";
+import { ViewSizeContext } from "../../context";
+const Snowflake = props => {
+    const viewSize = useContext(ViewSizeContext);
 
-const Snowflake = () => {
     let flakes = [];
-    let width, height;
     let direction = -1; // -1: left, +1: right
     let prevPointer = 500;
 
     const addFlake = () => {
-        const x = Math.ceil(Math.random() * width);
+        const x = Math.ceil(Math.random() * viewSize.width);
         const r = Math.max(Math.ceil(Math.random() * 5), 2);
         const opacity = Math.min(Math.random() + 0.1, 0.7);
         flakes.push({ x, y: 0, r, opacity });
@@ -21,17 +22,12 @@ const Snowflake = () => {
             flake.x += gap * direction;
         });
         // 화면 바깥으로 나간 flake 제거
-        flakes = flakes.filter((flake) => flake.y < height);
+        flakes = flakes.filter((flake) => flake.y < viewSize.height);
     };
 
     const snow = () => {
         fallFlake();
         addFlake();
-    };
-
-    const setWidthHeight = () => {
-        width = document.body.clientWidth;
-        height = document.body.clientHeight;
     };
 
     const setDirectionFromCursorPosition = ({ x }) => {
@@ -41,13 +37,10 @@ const Snowflake = () => {
     };
 
     useEffect(() => {
-        setWidthHeight();
         const intervalId = setInterval(snow, 50);
-        window.addEventListener("resize", setWidthHeight);
         window.addEventListener("mousemove", setDirectionFromCursorPosition);
         return () => {
             clearInterval(intervalId);
-            window.removeEventListener("resize", setWidthHeight);
             window.removeEventListener(
                 "mousemove",
                 setDirectionFromCursorPosition
@@ -57,7 +50,7 @@ const Snowflake = () => {
 
     const draw = (ctx) => {
         ctx.fillStyle = "#1F2124";
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillRect(0, 0, viewSize.width, viewSize.height);
 
         flakes.forEach((flake) => {
             ctx.beginPath();
